@@ -11,7 +11,7 @@ router.get("/:gamertag", async (req, res) => {
 
     const { gamertag } = req.params;
     const response = await fetch(
-      `${process.env.TRACKER_API_URL2}/SearchUsers/?q=${gamertag}`,
+      `${process.env.TRACKER_API_URL2}/User/SearchUsers/?q=${gamertag}`,
       {
         headers
       }

@@ -33,9 +33,13 @@ router.get("/:merbershipId", async(req, res) => {
     const headers = {
       "X-API-KEY": process.env.TRACKER_API_KEY
     };
-    const { membershipId } = req.params;
+    const membershipId  = req.params;
+    console.log(membershipId)
+    console.log(typeof membershipId)
+    const asdf = membershipId.merbershipId
+    console.log(asdf)
     const destinyId = await fetch(
-      `${process.env.TRACKER_API_URL2}/User/GetMembershipsById/${membershipId}/-1/`,
+      `${process.env.TRACKER_API_URL2}/User/GetMembershipsById/${asdf}/-1/`,
       {
         headers
       }
