@@ -1,101 +1,102 @@
 <template>
   <div class="container">
-    <div class="form-container">
-      <img src="../assets/bg2.png" alt class="body-bg-image" />
-      <section class="search">
-        <h1>Track Player Stats</h1>
-        <form v-on:submit.prevent="onSubmit">
-          <div class="form-group">
-            <input
-              type="text"
-              name="text"
-              v-model="gamertag"
-              id="gamertag"
-              placeholder="Xbox live Gamertag, PSN Id or Steam Gamertag"
-            />
-            <div class="form-group">
-              <input type="submit" value="submit" class="btn" />
-            </div>
+    <img src="../assets/bg2.jpg" alt class="body-bg-image" />
+    <div v-if="loading">
+      <H3>Loading...</H3>
+    </div>
+    <div v-if="error">
+      <h1>{{ error }}</h1>
+      <router-link to="/">Go</router-link>
+    </div>
+    <div class="container-card">
+      <ul :key="items" v-for="items in profileData">
+      <router-link :to="`/profile/${items.membershipId}`">
+        <div class="card">
+          <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
+          <div class="text">
+            <div class="namePlayer">{{ items.displayName }}</div>
+            {{items.membershipId}}
+            <div v-if="items.blizzardDisplayName">Blizzard gamertag {{ items.blizzardDisplayName }}</div>
+            <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
           </div>
-        </form>
-      </section>
+        </div>
+        </router-link>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Search",
   data() {
     return {
-      gamertag: ""
+      loading: false,
+      error: null,
+      profileData: null
     };
   },
-  // beforeCreate() {
-  //   document.body.className = "body-bg-image";
-  // },
-  methods: {
-    onSubmit() {
-      if (!this.gamertag) {
-        this.$toasted.show("Please enter a gamertag", {
-          duration: 3000,
-          icon: "exclamation-circle"
-        });
-      } else {
-        this.$router.push(`/profile/${this.gamertag}`);
-      }
+  beforCreate() {
+    document.body.className = "body-bg-no-image";
+  },
+  async created() {
+    this.loading = true;
+    try {
+      const res = await axios.get(
+        `/api/v1/search/${this.$route.params.gamertag}`
+      );
+
+      this.profileData = res.data.Response;
+      window.console.log(this.profileData);
+      this.loading = false;
+    } catch (error) {
+      this.loading = false;
+      this.error = error.response.data.message;
     }
   }
 };
 </script>
 
 <style scoped>
-.search {
+.container-card {
+  display: flex;
+  margin-top: 200px;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  align-items: center;
+  justify-content: space-between;
+  /* margin: 25px; */
+  height: 90px;
+  color: black;
   background: rgba(0, 0, 0, 0.1);
-  /* border: 4px #d4605e solid; */
-  border-radius: 10px;
-  margin-top: 1rem;
-  margin-left: 5vw;
-  padding: 2rem;
-  position: absolute;
-  transform: translateX(-130px);
-  /* transform: translateY(50px); */
-  bottom: 35vh;
-  right: 50vw;
-  width: 500px;
-  height: auto;
+}
+
+.text {
+  width: 250px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-items: flex-start;
+  margin-right: 20px;
+  text-align: center
 }
 
-.form-group {
-  margin: 1rem 0;
-  width: 100%;
+.namePlayer{
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center
 }
 
-h1 {
-  color: black;
-  text-align: center;
-}
-
-input,
-select,
-textarea {
-  display: block;
-  width: 100%;
-  padding: 0.4rem;
-  font-size: 1.2rem;
-  border: 1px solid black;
-}
-.btn {
-  display: inline-block;
-  background: var(--primary-color);
-  color: black;
-  padding: 0.4rem 1.3rem;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  margin-top: 1rem;
+.img-card {
+  width: auto;
+  height: 90%;
+  display: inline;
+  margin-left: 10px;
 }
 </style>

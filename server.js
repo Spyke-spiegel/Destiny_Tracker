@@ -17,7 +17,8 @@ app.listen(port, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });
 
-app.use("/api/v1/profile", require("./routes/test"));
+app.use("/api/v1/search", require("./routes/Search"));
+app.use("/api/v1/profile", require("./routes/Profile"));
 
 // app.get("/api/v1/profile/:gamertag", (req, res) => {
 //   console.log(req.params.gamertag);

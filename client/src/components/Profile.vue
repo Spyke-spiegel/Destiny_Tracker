@@ -1,26 +1,5 @@
 <template>
-  <div class="container">
-    <img src="../assets/bg2.png" alt class="body-bg-image" />
-    <div v-if="loading">
-      <H3>Loading...</H3>
-    </div>
-    <div v-if="error">
-      <h1>{{ error }}</h1>
-      <router-link to="/">Go</router-link>
-    </div>
-    <div class="container-card">
-      <ul v-bind:key="items" v-for="items in profileData">
-        <div class="card">
-          <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
-          <div class="text">
-            {{ items.displayName }}
-            <div v-if="items.blizzardDisplayName">Blizzard gamertag {{ items.blizzardDisplayName }}</div>
-            <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
-          </div>
-        </div>
-      </ul>
-    </div>
-  </div>
+    <div class="container">hello world</div>
 </template>
 
 <script>
@@ -41,7 +20,7 @@ export default {
     this.loading = true;
     try {
       const res = await axios.get(
-        `/api/v1/profile/${this.$route.params.gamertag}`
+        `/api/v1/profile/${this.$route.params.membershipId}`
       );
 
       this.profileData = res.data.Response;
@@ -54,39 +33,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.container-card {
-  display: flex;
-  margin-top: 200px;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.card {
-  display: flex;
-  flex-direction: row;
-  width: 400px;
-  align-items: center;
-  justify-content: space-between;
-  /* margin: 25px; */
-  height: 90px;
-  color: black;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.text {
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-items: flex-start;
-  margin-right: 20px;
-}
-
-.img-card {
-  width: auto;
-  height: 90%;
-  display: inline;
-  margin-left: 10px;
-}
-</style>
