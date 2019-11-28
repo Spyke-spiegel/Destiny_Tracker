@@ -58,13 +58,34 @@ router.get("/:merbershipId", async (req, res) => {
     );
     const data2 = await persoInfos.json();
     console.log(data2.Response.profile.data.characterIds)
+    data3 = data2.Response.profile.data.characterIds
+    const characterInfos = []
+    data3.forEach(element => {
+      console.log(element)
+       const testadf = fetch(
+        `${process.env.TRACKER_API_URL2}/Destiny2/${membershipType}/Profile/${idDestiny}/Character/${element}/?components=200`,
+        {
+          headers
+        }).then ((res) => {return res.json()}).then((json) => {
+          return characterInfos = json.Response.character.data})
+        //const data4 = await testadf.json();
+    });
+    console.log(characterInfos)
+    //console.log(typeof characterInfos)
   } catch (error) {
-    console.error(err);
+    console.error(error);
     res.status(500).json({  
       message: "Server Error"
     });
   }
+
+  array.forEach(element => {
+    
+  });
 });
+
+
+
 
 
 module.exports = router;
