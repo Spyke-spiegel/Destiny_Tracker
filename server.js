@@ -18,7 +18,7 @@ app.listen(port, () => {
 });
 
 app.use("/api/v1/search", require("./routes/Search"));
-app.use("/api/v1/profile", require("./routes/Profile"));
+// app.use("/api/v1/profile", require("./routes/Profile"));
 
 // app.get("/api/v1/profile/:gamertag", (req, res) => {
 //   console.log(req.params.gamertag);
