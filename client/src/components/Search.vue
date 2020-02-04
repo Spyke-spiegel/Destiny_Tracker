@@ -48,7 +48,7 @@ export default {
       );
 
       this.profileData = res.data.Response;
-      window.console.log(this.profileData);
+      //window.console.log(this.profileData);
       this.loading = false;
     } catch (error) {
       this.loading = false;
