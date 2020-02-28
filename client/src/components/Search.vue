@@ -9,17 +9,19 @@
       <router-link to="/">Go</router-link>
     </div>
     <div class="container-card">
-      <ul :key="items" v-for="items in profileData">
-      <router-link :to="`/profile/${items.membershipId}`">
-        <div class="card">
-          <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
-          <div class="text">
-            <div class="namePlayer">{{ items.displayName }}</div>
-            {{items.membershipId}}
-            <div v-if="items.blizzardDisplayName">Blizzard gamertag {{ items.blizzardDisplayName }}</div>
-            <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
+      <ul :key="items" v-for="items in searchData">
+        <router-link :to="`/profile/${items.membershipId}`">
+          <div class="card">
+            <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
+            <div class="text">
+              <div class="namePlayer">{{ items.displayName }}</div>
+              {{items.membershipId}}
+              <div
+                v-if="items.blizzardDisplayName"
+              >Blizzard gamertag {{ items.blizzardDisplayName }}</div>
+              <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
+            </div>
           </div>
-        </div>
         </router-link>
       </ul>
     </div>
@@ -34,7 +36,7 @@ export default {
     return {
       loading: false,
       error: null,
-      profileData: null
+      searchData: null
     };
   },
   beforCreate() {
@@ -47,7 +49,7 @@ export default {
         `/api/v1/search/${this.$route.params.gamertag}`
       );
 
-      this.profileData = res.data.Response;
+      this.searchData = res.data.Response;
       //window.console.log(this.profileData);
       this.loading = false;
     } catch (error) {
@@ -84,13 +86,13 @@ export default {
   flex-direction: column;
   justify-items: flex-start;
   margin-right: 20px;
-  text-align: center
+  text-align: center;
 }
 
-.namePlayer{
+.namePlayer {
   font-size: 30px;
   text-transform: uppercase;
-  text-align: center
+  text-align: center;
 }
 
 .img-card {

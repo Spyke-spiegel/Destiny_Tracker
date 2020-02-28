@@ -9,7 +9,7 @@
       <router-link to="/">Go</router-link>
     </div>
     <div class="container-card">
-      <ul :key="items" v-for="items in profileData">
+      <ul :key="items" v-for="items in characterData">
         <router-link :to="`/profile/${items.membershipId}`">
           <div class="card">
             <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
