@@ -8,20 +8,30 @@ router.get("/:membershipId", async (req, res) => {
     const headers = {
       "X-API-KEY": process.env.TRACKER_API_KEY
     };
-    const  membershipID  = req.params;
-    const asdf = membershipId.merbershipId;
+    const {
+      membershipId
+    } = req.params;
+    const asdf = membershipId;
     console.log("req params : " + asdf);
-  
-    // const response = await fetch(;
-    //   `${process.env.TRACKER_API_URL2}/3/Profile/${membershipID}/?components=100`,
-    //   {
-    //     headers
-    //   }
-    // );
-    // const data = await response.json();
-    // console.log(data);
-    // res.json(data);
-  } catch (error) {
+    const response = await fetch(
+      `${process.env.TRACKER_API_URL2}User/GetMembershipsById/${membershipId}/-1/`, {
+        headers
+      }
+    );
+    const data1 = await response.json();
+    const primaryPlayerId = data1.Response.destinyMemberships[0].membershipId;
+    const primaryPlayerType = data1.Response.destinyMemberships[0].membershipType;
+    console.log('response de bungie membership ID : ' + primaryPlayerId + 'et membership Type: ' +
+      primaryPlayerType);
+    const response2 = await fetch(
+      `${process.env.TRACKER_API_URL2}/Destiny2/${primaryPlayerType}/Profile/${primaryPlayerId}/?components=100`, {
+        headers
+      }
+    );
+    const data2 = await response2.json();
+    console.log(data2)
+    res.json(data2);
+  } catch (err) {
     console.error(err);
     res.status(500).json({
       message: "Server Error"

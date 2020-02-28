@@ -9,17 +9,18 @@ router.get("/:gamertag", async (req, res) => {
       "X-API-KEY": process.env.TRACKER_API_KEY
     };
 
-    const { gamertag } = req.params;
+    const {
+      gamertag
+    } = req.params;
     const response = await fetch(
-      `${process.env.TRACKER_API_URL2}/User/SearchUsers/?q=${gamertag}`,
-      {
+      `${process.env.TRACKER_API_URL2}/User/SearchUsers/?q=${gamertag}`, {
         headers
       }
     );
     const data = await response.json();
     console.log(data);
     res.json(data);
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     res.status(500).json({
       message: "Server Error"
