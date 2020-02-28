@@ -1,6 +1,30 @@
 <template>
   <div class="container">
-    <h1>Hello world</h1>
+    <img src="../assets/bg2.jpg" alt class="body-bg-image" />
+    <div v-if="loading">
+      <H3>Loading...</H3>
+    </div>
+    <div v-if="error">
+      <h1>{{ error }}</h1>
+      <router-link to="/">Go</router-link>
+    </div>
+    <div class="container-card">
+      <ul :key="items" v-for="items in profileData">
+        <router-link :to="`/profile/${items.membershipId}`">
+          <div class="card">
+            <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
+            <div class="text">
+              <div class="namePlayer">{{ items.displayName }}</div>
+              {{items.membershipId}}
+              <div
+                v-if="items.blizzardDisplayName"
+              >Blizzard gamertag {{ items.blizzardDisplayName }}</div>
+              <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
+            </div>
+          </div>
+        </router-link>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -12,7 +36,7 @@ export default {
     return {
       loading: false,
       error: null,
-      profileData: null
+      characterData: null
     };
   },
   beforCreate() {
@@ -25,8 +49,8 @@ export default {
         `/api/v1/profile/${this.$route.params.membershipId}`
       );
 
-      this.profileData = res.data.Response;
-      window.console.log(this.profileData);
+      this.characterData = res.data.Response;
+      window.console.log(this.characterData);
       this.loading = false;
     } catch (error) {
       this.loading = false;
