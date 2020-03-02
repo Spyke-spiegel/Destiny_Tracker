@@ -58,8 +58,7 @@ router.get("/:membershipId", async (req, res) => {
     character.characterData1 = characterData1;
     character.characterData2 = characterData2;
     character.characterData3 = characterData3;
-    // console.log("test object nested :" + character.characterData1);
-    // console.log(" type  character : " + typeof (character))
+    console.log("Reponse du Server : " + character)
     res.json(character);
   } catch (error) {
     console.error(error);

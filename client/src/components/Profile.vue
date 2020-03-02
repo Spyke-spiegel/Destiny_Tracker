@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="../assets/bg2.jpg" alt class="body-bg-image" />
+    <!-- <img src="../assets/bg2.jpg" alt class="body-bg-image" /> -->
     <div v-if="loading">
       <H3>Loading...</H3>
     </div>
@@ -9,8 +9,27 @@
       <router-link to="/">Go</router-link>
     </div>
     <div class="container-card">
-      <ul id="v-for-object" class="demo">
-        <li v-bind:key="value" v-for="value in characterData">{{ value }}</li>
+      <ul class="character-card" v-bind:key="value" v-for="value in characterData">
+        <img class="perso" src="../assets/Titan.png" v-if="value.classType === 0" />
+        <img class="perso" src="../assets/Hunter.png" v-else-if="value.classType === 1" />
+        <img class="perso" src="../assets/Warlock.png" v-else />
+        <div class="tab-card">
+          <img class="bg-card" :src="destinyWebsiteUrl+value.emblemBackgroundPath" />
+          <div class="stat">
+            <div>
+              <h2 v-if="value.classType === 0">TITAN</h2>
+              <h2 v-else-if="value.classType === 1">HUNTER</h2>
+              <h2 v-else>WARLOCK</h2>
+              <h2 v-if="value.raceType === 0">HUMAN</h2>
+              <h2 v-else-if="value.raceType === 1">AWOKEN</h2>
+              <h2 v-else>EXO</h2>
+            </div>
+            <div class="light">
+              <h3>{{value.light}}</h3>
+              <h3>{{value.levelProgression.level}}</h3>
+            </div>
+          </div>
+        </div>
       </ul>
     </div>
   </div>
@@ -20,12 +39,13 @@
 import axios from "axios";
 export default {
   name: "Profile",
-  el: "#v-for-object",
+
   data() {
     return {
       loading: false,
       error: null,
-      characterData: null
+      characterData: null,
+      destinyWebsiteUrl: "https://www.bungie.net"
     };
   },
   beforCreate() {
@@ -50,44 +70,63 @@ export default {
 </script>
 
 <style scoped>
-.container-card {
-  display: flex;
-  margin-top: 200px;
-  flex-direction: column;
-  flex-wrap: wrap;
+.container {
+  height: 100vh;
+  width: 100vw !important;
+  margin: 0;
+  padding: 0;
+  /* background: radial-gradient(white, grey); */
 }
 
-.card {
+.perso {
+  height: 70vh;
+  width: auto;
+}
+
+.container-card {
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  width: 400px;
-  align-items: center;
-  justify-content: space-between;
-  /* margin: 25px; */
-  height: 90px;
+  justify-content: center;
   color: black;
-  background: rgba(0, 0, 0, 0.1);
+  bottom: 10vh;
 }
 
-.text {
-  width: 250px;
+.tab-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 25px;
+  width: 474px;
+  height: 96px;
+  color: white;
+}
+
+.stat {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  left: 20%;
+  width: 80%;
+}
+
+.light {
   display: flex;
   flex-direction: column;
-  justify-items: flex-start;
-  margin-right: 20px;
-  text-align: center;
+  align-items: flex-end;
+  margin-right: 5%;
 }
 
-.namePlayer {
-  font-size: 30px;
-  text-transform: uppercase;
-  text-align: center;
+.bg-card {
+  position: absolute;
+  z-index: -100;
+  /* width: 100%;
+  height: 100%; */
 }
 
-.img-card {
-  width: auto;
-  height: 90%;
-  display: inline;
-  margin-left: 10px;
+.container-card > ul {
 }
 </style>
