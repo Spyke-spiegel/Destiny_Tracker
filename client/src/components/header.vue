@@ -24,6 +24,7 @@ img {
   position: absolute;
   top: 50px;
   left: 50px;
+  z-index: 1000;
 }
 
 @media (max-width: 700px) {

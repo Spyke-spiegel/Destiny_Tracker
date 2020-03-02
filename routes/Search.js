@@ -19,7 +19,7 @@ router.get("/:gamertag", async (req, res) => {
     );
     const data = await response.json();
     // console.log(data);
-    // console.log(" type  search :" + typeof (data))
+    console.log("REtour des serveur bungie : " + JSON.stringify(data, undefined, 4))
     res.json(data);
   } catch (err) {
     console.error(err);
