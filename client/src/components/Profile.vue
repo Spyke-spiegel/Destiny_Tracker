@@ -9,20 +9,8 @@
       <router-link to="/">Go</router-link>
     </div>
     <div class="container-card">
-      <ul :key="items" v-for="items in characterData">
-        <router-link :to="`/profile/${items.membershipId}`">
-          <div class="card">
-            <img class="img-card" :src="'https://www.bungie.net' + items.profilePicturePath" />
-            <div class="text">
-              <div class="namePlayer">{{ items.displayName }}</div>
-              {{items.membershipId}}
-              <div
-                v-if="items.blizzardDisplayName"
-              >Blizzard gamertag {{ items.blizzardDisplayName }}</div>
-              <div v-if="items.steamDisplayName">Steam gamertag {{ items.steamDisplayName }}</div>
-            </div>
-          </div>
-        </router-link>
+      <ul id="v-for-object" class="demo">
+        <li v-bind:key="value" v-for="value in characterData">{{ value }}</li>
       </ul>
     </div>
   </div>
@@ -32,6 +20,7 @@
 import axios from "axios";
 export default {
   name: "Profile",
+  el: "#v-for-object",
   data() {
     return {
       loading: false,
@@ -49,7 +38,7 @@ export default {
         `/api/v1/profile/${this.$route.params.membershipId}`
       );
 
-      this.characterData = res.data.Response;
+      this.characterData = res.data;
       window.console.log(this.characterData);
       this.loading = false;
     } catch (error) {
@@ -59,3 +48,46 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.container-card {
+  display: flex;
+  margin-top: 200px;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  align-items: center;
+  justify-content: space-between;
+  /* margin: 25px; */
+  height: 90px;
+  color: black;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.text {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.namePlayer {
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.img-card {
+  width: auto;
+  height: 90%;
+  display: inline;
+  margin-left: 10px;
+}
+</style>

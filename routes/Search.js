@@ -18,7 +18,8 @@ router.get("/:gamertag", async (req, res) => {
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
+    // console.log(" type  search :" + typeof (data))
     res.json(data);
   } catch (err) {
     console.error(err);

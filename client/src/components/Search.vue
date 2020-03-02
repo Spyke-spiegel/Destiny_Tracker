@@ -50,7 +50,7 @@ export default {
       );
 
       this.searchData = res.data.Response;
-      //window.console.log(this.profileData);
+      window.console.log(this.searchData);
       this.loading = false;
     } catch (error) {
       this.loading = false;
