@@ -22,8 +22,8 @@ router.get("/:membershipId", async (req, res) => {
     console.log("Reponse du Server pour player ID : " + JSON.stringify(data1, undefined, 4))
     let primaryPlayerId = data1.Response.destinyMemberships[0].membershipId;
     let primaryPlayerType = data1.Response.destinyMemberships[0].membershipType;
-    // console.log('response de bungie membership ID : ' + primaryPlayerId + 'et membership Type: ' +
-    // primaryPlayerType);
+    console.log('response de bungie membership ID : ' + primaryPlayerId + 'et membership Type: ' +
+      primaryPlayerType);
 
     // find the ID of the different character of the player from his Player ID
     let response2 = await fetch(
@@ -32,15 +32,36 @@ router.get("/:membershipId", async (req, res) => {
       }
     );
     let data2 = await response2.json();
+    let bungieAccountError = data2.ErrorCode
+    console.log("detection Bungie Error : " + bungieAccountError)
     console.log("Reponse du Server pour les different character ID : " + JSON.stringify(data2, undefined, 4));
-    let nbCharacter = data2.Response.profile.data.characterIds;
-    console.log("nombre de character : " + nbCharacter.length);
-    var character = {};
-    // console.log(data2);
 
+    //if the character ID is not right, function for reiterating and try the second destiny account
+    if (bungieAccountError === 1601) {
+      console.log("Second DEstiny account check begin");
+      primaryPlayerId = data1.Response.destinyMemberships[1].membershipId;
+      primaryPlayerType = data1.Response.destinyMemberships[1].membershipType;
+      let response2 = await fetch(
+        `${process.env.TRACKER_API_URL2}/Destiny2/${primaryPlayerType}/Profile/${primaryPlayerId}/?components=100`, {
+          headers
+        }
+      );
+      data2 = await response2.json();
+      console.log("Reponse du Server pour les different character ID : " + JSON.stringify(data2, undefined, 4));
+      let nbCharacter = data2.Response.profile.data.characterIds.length;
+      console.log("nombre de character second destiny account: " + nbCharacter);
+      console.log("Second Destiny account tested : " + JSON.stringify(data2, undefined, 4));
+    } else {
+      console.log("error Bungie account")
+    };
 
+    console.log("last verif DATA 2 :" + JSON.stringify(data2, undefined, 4));
+    let nbCharacter = data2.Response.profile.data.characterIds.length;
+    console.log("nombre de character : " + nbCharacter);
+    let character = {};
 
-    if (nbCharacter = 1) {
+    if (nbCharacter === 1) {
+      console.log("fonction if demarre");
       // Gather the infos for the first Character
       let response3 = await fetch(
         `${process.env.TRACKER_API_URL2}/Destiny2/${primaryPlayerType}/Profile/${primaryPlayerId}/Character/${data2.Response.profile.data.characterIds[0]}/?components=200`, {
@@ -48,19 +69,19 @@ router.get("/:membershipId", async (req, res) => {
         }
       );
       let characterData1Raw = await response3.json();
-      let character = characterData1Raw.Response.character.data;
+      character = characterData1Raw.Response.character.data;
       console.log("if executer");
-      return character;
 
-    } else if (nbCharacter = 2) {
-
+    } else if (nbCharacter === 2) {
       // Gather the infos for the first Character
+      console.log("fonction Else-if demarre");
       let response3 = await fetch(
         `${process.env.TRACKER_API_URL2}/Destiny2/${primaryPlayerType}/Profile/${primaryPlayerId}/Character/${data2.Response.profile.data.characterIds[0]}/?components=200`, {
           headers
         }
       );
       let characterData1Raw = await response3.json();
+      console.log("DEbugger : " + JSON.stringify(characterData1Raw, undefined, 4));
       let characterData1 = characterData1Raw.Response.character.data;
 
       // Gather the infos for the second Character
@@ -72,16 +93,16 @@ router.get("/:membershipId", async (req, res) => {
       let characterData2Raw = await response4.json();
       let characterData2 = characterData2Raw.Response.character.data;
 
-
-      let character = {
+      character = {
         "characterData1": {},
-        "characterData2": {},
+        "characterData2": {}
       };
       character.characterData1 = characterData1;
       character.characterData2 = characterData2;
-      return character;
+
     } else {
 
+      console.log("function Else deamrre");
       // Gather the infos for the first Character
       let response3 = await fetch(
         `${process.env.TRACKER_API_URL2}/Destiny2/${primaryPlayerType}/Profile/${primaryPlayerId}/Character/${data2.Response.profile.data.characterIds[0]}/?components=200`, {
@@ -112,7 +133,7 @@ router.get("/:membershipId", async (req, res) => {
 
 
       // Create a JS Object from the different API call above adn send it back to the Front End
-      let character = {
+      character = {
         "characterData1": {},
         "characterData2": {},
         "characterData3": {}
@@ -120,10 +141,8 @@ router.get("/:membershipId", async (req, res) => {
       character.characterData1 = characterData1;
       character.characterData2 = characterData2;
       character.characterData3 = characterData3;
-
-      return character;
     }
-    console.log("Reponse du Server : " + JSON.stringify(character, undefined, 4))
+    console.log("Reponse du Server : " + JSON.stringify(character, undefined, 4));
     res.json(character);
   } catch (error) {
     console.error(error);
