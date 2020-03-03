@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- <img src="../assets/bg2.jpg" alt class="body-bg-image" /> -->
-    <div v-if="loading">
+    <div class="loading" v-if="loading">
       <H3>Loading...</H3>
     </div>
     <div v-if="error">
@@ -26,7 +26,7 @@
             </div>
             <div class="light">
               <h3>{{value.light}}</h3>
-              <h3>{{value.levelProgression.level}}</h3>
+              <h3>{{value.level}}</h3>
             </div>
           </div>
         </div>
@@ -79,27 +79,43 @@ export default {
 }
 
 .perso {
-  height: 70vh;
+  height: 50vh;
   width: auto;
+}
+
+.character-card {
+  height: 70vh;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.perso:hover {
+  transform: scale(1.2);
+  transition: transform 300ms ease-in-out;
+  z-index: 1000;
 }
 
 .container-card {
   position: fixed;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
   color: black;
   bottom: 10vh;
+  justify-content: space-evenly;
 }
 
 .tab-card {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 25px;
-  width: 474px;
-  height: 96px;
+  /* margin: 25px; */
+  width: 100%;
+  height: auto;
   color: white;
 }
 
@@ -121,12 +137,9 @@ export default {
 }
 
 .bg-card {
-  position: absolute;
+  /* position: absolute; */
   z-index: -100;
-  /* width: 100%;
-  height: 100%; */
-}
-
-.container-card > ul {
+  width: 100%;
+  /* height: auto; */
 }
 </style>
