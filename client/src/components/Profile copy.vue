@@ -70,15 +70,89 @@ export default {
 </script>
 
 <style scoped>
-.container-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 70vh;
-  max-width: 100%;
+.container {
+  height: 100vh;
+  width: 100vw !important;
+  /* margin: 0; */
+  /* padding: 0; */
+  /* background: radial-gradient(white, grey); */
 }
 
 .perso {
+  height: 50vh;
+  width: auto;
+}
+
+.character-card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  position: relative;
+}
+
+.character-card:hover {
+  transform: scale(1.2);
+  transition: transform 300ms ease-in-out;
+  z-index: 1000;
+}
+
+.container-card {
+  /* position: fixed; */
+  /* width: 100vw; */
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* flex-wrap: nowrap; */
+  /* justify-content: center; */
+  color: black;
+  bottom: 10vh;
+  /* justify-content: space-evenly; */
+}
+
+.tab-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* margin: 25px; */
   width: 100%;
   height: auto;
+  color: white;
+}
+
+.stat {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  left: 20%;
+  width: 80%;
+  height: auto;
+}
+.stat > h2 {
+  font-size: 25px;
+}
+
+.light {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 5%;
+}
+
+.bg-card {
+  position: absolute;
+  z-index: -100;
+  max-width: 100%;
+  /* height: auto; */
+}
+
+.container-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 70%;
+  align-items: center;
 }
 </style>
