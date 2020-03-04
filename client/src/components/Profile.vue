@@ -89,6 +89,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: center;
+  position: relative;
 }
 
 .perso:hover {
@@ -110,6 +111,7 @@ export default {
 }
 
 .tab-card {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -120,13 +122,17 @@ export default {
 }
 
 .stat {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   left: 20%;
   width: 80%;
+  height: auto;
+}
+.stat > h2 {
+  font-size: 25px;
 }
 
 .light {
@@ -137,9 +143,9 @@ export default {
 }
 
 .bg-card {
-  /* position: absolute; */
+  position: absolute;
   z-index: -100;
   width: 100%;
-  /* height: auto; */
+  height: auto;
 }
 </style>
