@@ -78,7 +78,11 @@ export default {
 }
 
 .perso {
-  width: 100%;
+  width: 70%;
   height: auto;
+}
+
+.bg-card {
+  
 }
 </style>

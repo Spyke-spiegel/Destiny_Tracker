@@ -32,7 +32,7 @@ router.get("/:membershipId", async (req, res) => {
       }
     );
     let data2 = await response2.json();
-    let bungieAccountError = data2.ErrorCode
+    let bungieAccountError = data2.ErrorCode;
     //console.log("detection Bungie Error : " + bungieAccountError)
     //console.log("Reponse du Server pour les different character ID : " + JSON.stringify(data2, undefined, 4));
 
